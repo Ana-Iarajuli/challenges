@@ -61,10 +61,13 @@ function setStatus(text, isError = false) {
 
 // ---------- network ----------
 
+// Encoded so passwords with non-Latin characters (e.g. Georgian) are valid in an HTTP header.
+const keyHeader = (key) => ({ "x-admin-key": encodeURIComponent(key) });
+
 async function stateRequest(method, { query = "", body } = {}) {
   const res = await fetch(STATE_API + query, {
     method,
-    headers: { "x-admin-key": app.key, ...(body ? { "content-type": "application/json" } : {}) },
+    headers: { ...keyHeader(app.key), ...(body ? { "content-type": "application/json" } : {}) },
     body: body ? JSON.stringify(body) : undefined,
   });
   const data = await res.json().catch(() => ({}));
@@ -83,8 +86,12 @@ async function mikiri(path) {
 
 async function login(key) {
   app.key = key;
-  const res = await fetch(STATE_API, { headers: { "x-admin-key": key } }).catch(() => null);
-  if (!res) throw new Error("Can't reach the server. Is the site deployed on Netlify?");
+  let res;
+  try {
+    res = await fetch(STATE_API, { headers: keyHeader(key) });
+  } catch (err) {
+    throw new Error(`Can't reach the server (${err.message}). Check your connection.`);
+  }
   if (res.status === 401) throw new Error("Wrong password");
   if (!res.ok) {
     const data = await res.json().catch(() => ({}));

@@ -14,7 +14,9 @@ const sha = (s) => createHash("sha256").update(s).digest();
 const store = () => getStore({ name: "medals", consistency: "strong" });
 
 function authorized(req) {
-  const given = req.headers.get("x-admin-key") || "";
+  // The client URI-encodes the key so non-Latin passwords survive the HTTP header.
+  let given = req.headers.get("x-admin-key") || "";
+  try { given = decodeURIComponent(given); } catch { return false; }
   return timingSafeEqual(sha(given), sha(process.env.ADMIN_PASSWORD));
 }
 
