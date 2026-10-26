@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mikiri Medals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏅</text></svg>">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo">mikiri</span><span class="brand-sub">Medal desk</span></div>
+    <button id="logout" class="ghost" hidden>Log out</button>
+  </header>
+
+  <main>
+    <section id="login" class="login card" hidden>
+      <h1>Staff sign in</h1>
+      <p class="muted">Track medal pickups and flag suspicious results for Mikiri challenges.</p>
+      <form id="login-form">
+        <label for="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+        <button type="submit" class="primary">Sign in</button>
+        <p id="login-error" class="error" role="alert"></p>
+      </form>
+    </section>
+
+    <section id="app" hidden>
+      <nav id="challenges" class="tabs" aria-label="Challenges"></nav>
+
+      <div id="challenge-head" class="challenge-head"></div>
+
+      <div class="stats">
+        <div class="stat">
+          <label for="medals-total" class="stat-label">Medals in stock</label>
+          <input id="medals-total" type="number" min="0" inputmode="numeric" placeholder="Set">
+        </div>
+        <div class="stat"><span class="stat-label">Given out</span><span id="s-given" class="stat-value">–</span></div>
+        <div class="stat"><span class="stat-label">Remaining</span><span id="s-left" class="stat-value">–</span></div>
+        <div class="stat"><span class="stat-label">Still to collect</span><span id="s-pending" class="stat-value">–</span></div>
+        <div class="stat"><span class="stat-label">Flagged</span><span id="s-flagged" class="stat-value">–</span></div>
+      </div>
+
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search name, Strava or email">
+        <div id="filters" class="chips" role="group" aria-label="Filter"></div>
+        <div class="toolbar-actions">
+          <button id="refresh" class="ghost">Refresh</button>
+          <button id="export" class="ghost">Export CSV</button>
+        </div>
+      </div>
+
+      <p id="status" class="status" role="status"></p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="c-rank">#</th>
+              <th>Participant</th>
+              <th class="c-progress">Progress</th>
+              <th class="c-check">Medal taken</th>
+              <th class="c-check">Cheating?</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

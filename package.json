@@ -1,0 +1,15 @@
+{
+  "name": "mikiri-medals",
+  "private": true,
+  "type": "module",
+  "description": "Medal pickup tracker for challenges.mikiri.ge leaderboards",
+  "scripts": {
+    "dev": "netlify dev --offline --port 8888"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^27.14.2"
+  }
+}
